@@ -1,26 +1,49 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+/* External libs */
+import React from "react";
+import { Route, Switch } from "react-router-dom";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+/* CSS */
+import "./App.css";
+
+/* Local components */
+import Home from "components/pages/Home";
+import Nav from "components/partials/Nav";
+import LovedTracks from "components/pages/LovedTracks";
+
+class App extends React.Component {
+  render() {
+    return (
+      <div className="container mt-5">
+        <div className="row">
+          <div className="col col-2">
+            <Nav />
+          </div>
+          <div className="col col-10">
+            {
+              <Switch>
+                <Route
+                  exact
+                  key="/"
+                  path="/"
+                  render={() => {
+                    return <Home />;
+                  }}
+                />
+                <Route
+                  exact
+                  key="/loved"
+                  path="/loved"
+                  render={() => {
+                    return <LovedTracks />;
+                  }}
+                />
+              </Switch>
+            }
+          </div>
+        </div>
+      </div>
+    );
+  }
 }
 
 export default App;

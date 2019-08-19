@@ -1,0 +1,59 @@
+table#lovedTracks {
+  th,
+  td {
+    padding: 0.5rem 0;
+  }
+  thead tr {
+    border-top: 1px solid #f3f3f3;
+    th {
+      color: #888;
+      font-weight: 400;
+      text-transform: uppercase;
+      padding: 1rem 0;
+      span {
+        display: inline-flex;
+        align-items: baseline;
+        cursor: pointer;
+        svg {
+          margin-left: 0.25rem;
+          opacity: 0;
+          color: #007bff;
+          transition: opacity 0.2s ease;
+        }
+      }
+      &:hover span svg {
+        opacity: 1;
+      }
+    }
+  }
+  tbody tr {
+    border-top: 1px solid #f3f3f3;
+    td {
+      font-size: 14px;
+      padding-right: 2rem;
+      img {
+        border-radius: 3px;
+        width: 36px;
+        height: 36px;
+      }
+      a {
+        color: inherit;
+        transition: 0.1s color ease;
+        text-decoration: none;
+        &:hover {
+          color: #007bff;
+        }
+      }
+      &.track-album-cover {
+        padding-left: 1rem;
+      }
+      &.track-title,
+      &.track-album-title {
+        max-width: 18rem;
+      }
+    }
+    &:hover {
+      background-color: #f3f3f3;
+    }
+  }
+}
