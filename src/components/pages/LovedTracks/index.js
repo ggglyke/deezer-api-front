@@ -72,22 +72,32 @@ class LovedTracks extends Component {
   };
 
   getTracks = () => {
-    const sessionObject = sessionStorage.getItem("cachedTracks");
-    // 1 - get tracks
+    // set "now" timestamp (ms)
+    const now = new Date().getTime();
+
+    // expiration time before fetching new (mn)
+    const expiresMinutes = 60;
+
+    // get sessionObject containing tracks
+    const sessionObject = sessionStorage.getItem("tracks");
+
+    // if tracks, use them
     if (
       sessionObject &&
-      JSON.parse(sessionObject).expires < new Date().getTime()
+      JSON.parse(sessionObject).expires > new Date().getTime()
     ) {
+      console.log("pas encore expiré");
       this.setState({
         ...this.state,
         loading: false,
         tracks: sortByKey(
-          JSON.parse(sessionObject).tracks,
+          JSON.parse(sessionObject).data,
           this.state.sort.key,
           this.state.sort.order
         )
       });
     } else {
+      // if not, load from API
       axios
         .get(
           "https://cors-anywhere.herokuapp.com/http://api.deezer.com/playlist/234184751/tracks/?limit=999999999"
@@ -111,11 +121,15 @@ class LovedTracks extends Component {
                 this.state.sort.order
               )
             },
-            () =>
+            () => {
               sessionStorage.setItem(
                 "tracks",
-                JSON.stringify(response.data.data)
-              )
+                JSON.stringify({
+                  expires: now + expiresMinutes * 60 * 1000,
+                  data: response.data.data
+                })
+              );
+            }
           );
         })
         .catch(err => {
