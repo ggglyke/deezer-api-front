@@ -8,3 +8,7 @@ body {
   text-overflow: ellipsis;
   white-space: nowrap;
 }
+
+.nav-container {
+  border-bottom: 1px solid #dedede;
+}

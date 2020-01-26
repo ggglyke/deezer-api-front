@@ -6,25 +6,25 @@ import "./nav.scss";
 
 const Nav = () => {
   return (
-    <ul className="nav flex-column">
-      <li className="nav-item">
-        <NavLink exact to="/" activeClassName="active" className="nav-link">
-          <div className="link-wrapper d-inline">Home</div>
+    <ul className='nav justify-content-center'>
+      <li className='nav-item'>
+        <NavLink exact to='/' activeClassName='active' className='nav-link'>
+          <div className='link-wrapper d-inline'>Home</div>
         </NavLink>
       </li>
-      <li className="nav-item">
-        <NavLink to="/loved" activeClassName="active" className="nav-link">
-          <div className="link-wrapper d-inline">Loved</div>
+      <li className='nav-item'>
+        <NavLink to='/loved' activeClassName='active' className='nav-link'>
+          <div className='link-wrapper d-inline'>Loved</div>
         </NavLink>
       </li>
-      <li className="nav-item">
-        <NavLink to="/albums" activeClassName="active" className="nav-link">
-          <div className="link-wrapper d-inline">Albums</div>
+      <li className='nav-item'>
+        <NavLink to='/albums' activeClassName='active' className='nav-link'>
+          <div className='link-wrapper d-inline'>Albums</div>
         </NavLink>
       </li>
-      <li className="nav-item">
-        <NavLink to="/artists" activeClassName="active" className="nav-link">
-          <div className="link-wrapper d-inline">Artists</div>
+      <li className='nav-item'>
+        <NavLink to='/artists' activeClassName='active' className='nav-link'>
+          <div className='link-wrapper d-inline'>Artists</div>
         </NavLink>
       </li>
     </ul>

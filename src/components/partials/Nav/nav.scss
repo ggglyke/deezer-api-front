@@ -1,5 +1,5 @@
 ul.nav {
-  font-size: 18px;
+  font-size: 16px;
   .nav-item {
     margin: 0.5rem 0;
     &:hover .link-wrapper {
@@ -7,7 +7,6 @@ ul.nav {
       color: #007bff;
     }
     .nav-link {
-      font-weight: bold;
       color: #232323;
       .link-wrapper {
         border-radius: 50px;

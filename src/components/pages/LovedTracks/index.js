@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import axios from "axios";
 import { FaSort, FaStar } from "react-icons/fa";
 import { IconContext } from "react-icons";
+import Header from "components/partials/Header";
 
 import { sortByKey } from "utils";
 
@@ -100,7 +101,7 @@ class LovedTracks extends Component {
       // if not, load from API
       axios
         .get(
-          "https://cors-anywhere.herokuapp.com/http://api.deezer.com/playlist/234184751/tracks/?limit=999999999"
+          "https://cors-anywhere.herokuapp.com/https://api.deezer.com/playlist/234184751/tracks/?limit=999999999"
         )
         .then(response => {
           const tracks = response.data.data;
@@ -162,115 +163,143 @@ class LovedTracks extends Component {
   }
   render() {
     if (this.state.loading) {
-      return <p>Chargement...</p>;
+      return (
+        <>
+          <Header title='Tracks favoris' />
+          <div className='container'>
+            <div className='row'>
+              <div className='col'>
+                <p>Chargement...</p>
+              </div>
+            </div>
+          </div>
+        </>
+      );
     } else {
       if (this.state.tracks.length) {
         const tracks = this.state.tracks;
         return (
           <>
-            <h2>Dernier titre ajouté</h2>
-            <section className='latest d-flex my-5 mx-auto shadow'>
-              <div className='latest-img-container'>
-                <img src={tracks[0].album.cover_medium} />
+            <Header title='Tracks favoris' />
+            <div className='container nmt-8'>
+              <div className='row'>
+                <div className='col'>
+                  <section className='latest d-flex my-5 mx-auto shadow'>
+                    <div className='latest-img-container'>
+                      <img src={tracks[0].album.cover_medium} />
+                    </div>
+                    <div className='latest-meta-container d-flex flex-column align-items-end pr-5 justify-content-center'>
+                      <h3>{tracks[0].title}</h3>
+                      <h4 className='text-muted'>{tracks[0].artist.name}</h4>
+                      <p className='text-small text-muted'>
+                        Ajouté{" "}
+                        {new Date(
+                          tracks[0].time_add * 1000
+                        ).toLocaleDateString()}
+                      </p>
+                    </div>
+                  </section>
+                  <table id='lovedTracks'>
+                    <thead>
+                      <tr>
+                        <th />
+                        <th>
+                          <span onClick={this.clickSort} data-sortkey='title'>
+                            Titre
+                            <FaSort size='10px' />
+                          </span>
+                        </th>
+                        <th>
+                          <span
+                            onClick={this.clickSort}
+                            data-sortkey='artist.name'
+                          >
+                            Artiste
+                            <FaSort size='10px' />
+                          </span>
+                        </th>
+                        <th>
+                          <span
+                            onClick={this.clickSort}
+                            data-sortkey='album.title'
+                          >
+                            Album
+                            <FaSort size='10px' />
+                          </span>
+                        </th>
+                        <th>
+                          <span
+                            onClick={this.clickSort}
+                            data-sortkey='time_add'
+                          >
+                            Ajouté
+                            <FaSort size='10px' />
+                          </span>
+                        </th>
+                        <th>
+                          <span></span>
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {tracks.map(track => {
+                        const date = new Date(track.time_add * 1000);
+                        return (
+                          <tr key={track.id}>
+                            <td className='track-album-cover'>
+                              <img
+                                src={track.album.cover_small}
+                                alt={track.title_short}
+                              />
+                            </td>
+                            <td className='track-title ellipsis'>
+                              <a href={track.link} target='_blank'>
+                                {track.title_short}
+                              </a>
+                            </td>
+                            <td className='track-artist-name ellipsis'>
+                              <a href={track.artist.link} target='_blank'>
+                                {track.artist.name}
+                              </a>
+                            </td>
+                            <td className='track-album-title ellipsis'>
+                              <a
+                                href={`https://www.deezer.com/album/${track.album.id}`}
+                                target='_blank'
+                              >
+                                {track.album.title}
+                              </a>{" "}
+                              {track.liked}
+                            </td>
+                            <td className='track-time-add'>
+                              {date.toLocaleDateString()}
+                            </td>
+                            <td>
+                              <IconContext.Provider
+                                value={{
+                                  style: {
+                                    verticalAlign: "middle",
+                                    color: "#D3D3D3",
+                                    fontSize: "1.5rem"
+                                  },
+                                  className: `all-time-fav-icon`
+                                }}
+                              >
+                                <FaStar
+                                  onClick={this.clickFavorite}
+                                  data-id={track.id}
+                                  className={track.superLiked ? "liked" : ""}
+                                />
+                              </IconContext.Provider>
+                            </td>
+                          </tr>
+                        );
+                      })}
+                    </tbody>
+                  </table>
+                </div>
               </div>
-              <div className='latest-meta-container d-flex flex-column align-items-end pr-5 justify-content-center'>
-                <h3>{tracks[0].title}</h3>
-                <h4 className='text-muted'>{tracks[0].artist.name}</h4>
-                <p className='text-small text-muted'>
-                  Ajouté{" "}
-                  {new Date(tracks[0].time_add * 1000).toLocaleDateString()}
-                </p>
-              </div>
-            </section>
-            <table id='lovedTracks'>
-              <thead>
-                <tr>
-                  <th />
-                  <th>
-                    <span onClick={this.clickSort} data-sortkey='title'>
-                      Titre
-                      <FaSort size='10px' />
-                    </span>
-                  </th>
-                  <th>
-                    <span onClick={this.clickSort} data-sortkey='artist.name'>
-                      Artiste
-                      <FaSort size='10px' />
-                    </span>
-                  </th>
-                  <th>
-                    <span onClick={this.clickSort} data-sortkey='album.title'>
-                      Album
-                      <FaSort size='10px' />
-                    </span>
-                  </th>
-                  <th>
-                    <span onClick={this.clickSort} data-sortkey='time_add'>
-                      Ajouté
-                      <FaSort size='10px' />
-                    </span>
-                  </th>
-                  <th>
-                    <span></span>
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                {tracks.map(track => {
-                  const date = new Date(track.time_add * 1000);
-                  return (
-                    <tr key={track.id}>
-                      <td className='track-album-cover'>
-                        <img
-                          src={track.album.cover_small}
-                          alt={track.title_short}
-                        />
-                      </td>
-                      <td className='track-title ellipsis'>
-                        <a href={track.link} target='_blank'>
-                          {track.title_short}
-                        </a>
-                      </td>
-                      <td className='track-artist-name ellipsis'>
-                        <a href={track.artist.link} target='_blank'>
-                          {track.artist.name}
-                        </a>
-                      </td>
-                      <td className='track-album-title ellipsis'>
-                        <a
-                          href={`https://www.deezer.com/album/${track.album.id}`}
-                          target='_blank'
-                        >
-                          {track.album.title}
-                        </a>{" "}
-                        {track.liked}
-                      </td>
-                      <td className='track-time-add'>
-                        {date.toLocaleDateString()}
-                      </td>
-                      <td>
-                        <IconContext.Provider
-                          value={{
-                            style: {
-                              verticalAlign: "middle",
-                              color: "#D3D3D3",
-                              fontSize: "1.5rem"
-                            },
-                            className: `all-time-fav-icon`
-                          }}
-                        >
-                          <FaStar
-                            onClick={this.clickFavorite}
-                            data-id={track.id}
-                            className={track.superLiked ? "liked" : ""}
-                          />
-                        </IconContext.Provider>
-                      </td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
+            </div>
           </>
         );
       } else {
