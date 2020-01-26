@@ -44,6 +44,13 @@ table#lovedTracks {
           color: #007bff;
         }
       }
+      .all-time-fav-icon {
+        cursor: pointer;
+        &:hover,
+        &.liked {
+          color: #e7711b !important;
+        }
+      }
       &.track-album-cover {
         padding-left: 1rem;
       }
@@ -55,5 +62,35 @@ table#lovedTracks {
     &:hover {
       background-color: #f3f3f3;
     }
+  }
+}
+
+.latest {
+  max-width: 600px;
+  overflow: hidden;
+  position: relative;
+  &-img-container {
+    img {
+      width: 300px;
+      height: 300px;
+    }
+    &:after {
+      content: "";
+      height: 100%;
+      width: 100%;
+      position: absolute;
+      top: 0;
+      transform: skew(10deg);
+      transform-origin: bottom;
+      background-color: #192027;
+    }
+  }
+
+  .latest-meta-container {
+    width: 600px;
+    height: 300px;
+    background-color: #192027;
+    z-index: 1;
+    color: #fff;
   }
 }
